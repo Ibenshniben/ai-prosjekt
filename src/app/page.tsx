@@ -1,100 +1,188 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Navbar from "@/components/Navbar";
+import nissanGtr from "../../public/image.png";
 import Image from "next/image";
+import Link from "next/link";
+import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
+
+// Register the Draggable plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(Draggable);
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const projects = [
+    { id: 1, image: nissanGtr, title: "Oppnåelse 1" },
+    { id: 2, image: nissanGtr, title: "Logg" },
+    { id: 3, image: nissanGtr, title: "Oppnåelse 3" },
+    { id: 4, image: nissanGtr, title: "Oppnåelse 4" },
+    { id: 5, image: nissanGtr, title: "Oppnåelse 5" },
+    { id: 6, image: nissanGtr, title: "Oppnåelse 6" },
+  ];
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    const progressBar = progressBarRef.current;
+
+    if (!container || !progressBar) return;
+
+    // Initialize draggable
+    Draggable.create(container, {
+      type: "x",
+      inertia: true,
+      bounds: {
+        minX: -(container.scrollWidth - container.clientWidth),
+        maxX: 0
+      },
+      onDrag: function() {
+        const progress = (Math.abs(this.x) / (container.scrollWidth - container.clientWidth)) * 100;
+        gsap.to(progressBar, {
+          width: `${progress}%`,
+          duration: 0.1
+        });
+      }
+    });
+
+    // Handle wheel scroll anywhere on the document
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (!container) return;
+
+      const scrollAmount = e.deltaY;
+      const currentX = gsap.getProperty(container, "x") as number;
+      const newX = currentX - scrollAmount;
+      const maxScroll = -(container.scrollWidth - container.clientWidth);
+
+      // Ensure we don't scroll beyond bounds
+      const boundedX = Math.max(maxScroll, Math.min(0, newX));
+
+      gsap.to(container, {
+        x: boundedX,
+        duration: 0.5,
+        ease: "power2.out",
+        onUpdate: function() {
+          const progress = (Math.abs(gsap.getProperty(container, "x") as number) / 
+            (container.scrollWidth - container.clientWidth)) * 100;
+          gsap.to(progressBar, {
+            width: `${progress}%`,
+            duration: 0.1
+          });
+        }
+      });
+    };
+
+    // Add wheel event listener to document instead of just main
+    document.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      document.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#111111] text-white overflow-hidden">
+      {/* Header */}
+      <header className="fixed top-0 w-full flex justify-between items-center p-8 z-50">
+        <div className="text-2xl font-bold">AURA AI</div>
+        <nav className="relative">
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="hover:underline"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            MENU
+          </button>
+          
+          {/* Dropdown Menu */}
+          {isMenuOpen && (
+            <div className="absolute right-0 mt-4 py-2 w-40 bg-[#111111] border border-gray-800 shadow-lg">
+              <Link 
+                href="/logg" 
+                className="block px-4 py-2 hover:bg-gray-800"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                LOGG
+              </Link>
+              <Link 
+                href="/oppnaelser" 
+                className="block px-4 py-2 hover:bg-gray-800"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                OPPNÅELSER
+              </Link>
+              <Link 
+                href="/team" 
+                className="block px-4 py-2 hover:bg-gray-800"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                TEAM
+              </Link>
+            </div>
+          )}
+        </nav>
+      </header>
+
+      {/* Main content */}
+      <main className="pt-32 pb-24">
+        {/* Progress bar */}
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 w-1/3">
+          <div className="w-full h-[1px] bg-gray-700">
+            <div ref={progressBarRef} className="h-full bg-white w-0"></div>
+          </div>
+        </div>
+
+        {/* Centered container for images */}
+        <div className="flex justify-center">
+          {/* Image strips container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex flex-nowrap cursor-grab active:cursor-grabbing"
           >
-            Read our docs
-          </a>
+            {projects.map((project) => (
+              <Link 
+                key={project.id}
+                href={`/project/${project.id}`}
+                className="flex-none w-[200px] h-[400px] mx-2 relative group"
+              >
+                <Image
+                  src={project.image}
+                  alt={`Oppnåelse ${project.id}`}
+                  fill
+                  className="object-cover brightness-75 group-hover:brightness-100 transition-all duration-300"
+                  sizes="200px"
+                />
+                {/* Project title overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300">
+                  <h2 className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {project.title}
+                  </h2>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="fixed bottom-0 w-full p-8 flex justify-between text-sm">
+        <div>
+          <p>AI PROSJEKT 2025</p>
+        </div>
+        <div>
+          <a 
+            href="https://www.gervi.ai" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:underline"
+          >
+            GERVI
+          </a>
+        </div>
       </footer>
     </div>
   );
