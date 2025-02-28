@@ -12,10 +12,9 @@ interface LogEntry {
   isEditing?: boolean;
 }
 
-export default function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ProjectPage({ params }: { params: { id: string } }) {  // Remove Promise
   const router = useRouter();
-  const resolvedParams = use(params);
-  const projectId = resolvedParams.id;
+  const projectId = params.id;  // Direct access, no need for 'use'
   
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const [newMessage, setNewMessage] = useState('');
@@ -32,12 +31,14 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   const fetchLogs = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/logs', {
-        cache: 'no-store',
-        next: { revalidate: 0 }
-      });
+      const response = await fetch('/api/logs');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       
       const data = await response.json();
+      console.log('Fetched data:', data);  // Add this for debugging
       setLogEntries(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching logs:', error);
