@@ -51,17 +51,29 @@ export default function ProjectPage({ params }: { params: { id: string } }) {  /
   const addLogEntry = async () => {
     if (newMessage.trim()) {
       try {
+        console.log('Adding log entry:', newMessage);
         const response = await fetch('/api/logs', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: newMessage }),
+          cache: 'no-store'
         });
-        if (response.ok) {
-          setNewMessage('');
-          fetchLogs(); // Refresh logs
+        
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error response:', errorData);
+          throw new Error(`Failed to add log: ${errorData.error || response.statusText}`);
         }
+        
+        const data = await response.json();
+        console.log('Log added successfully:', data);
+        setNewMessage('');
+        fetchLogs(); // Refresh logs
       } catch (error) {
         console.error('Error adding log:', error);
+        alert('Failed to add log entry. Please try again.');
       }
     }
   };

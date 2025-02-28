@@ -3,13 +3,11 @@ import { prisma } from '@/lib/db'
 
 export async function GET() {
   try {
-    console.log('API: Fetching logs...');
     const logs = await prisma.logEntry.findMany({
       orderBy: {
         timestamp: 'desc',
       },
     });
-    console.log('API: Logs fetched successfully:', logs.length);
     
     // Format the timestamps
     const formattedLogs = logs.map(log => ({
@@ -26,20 +24,29 @@ export async function GET() {
     
     return NextResponse.json(formattedLogs);
   } catch (err) {
-    console.error('API: Error fetching logs:', err);
-    // Return empty array instead of error
+    console.error('Error fetching logs:', err);
     return NextResponse.json([]);
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    console.log('Creating new log entry');
+    const body = await request.json();
+    console.log('Request body:', body);
+    
+    if (!body.message || typeof body.message !== 'string') {
+      console.error('Invalid message format');
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
+    }
+    
     const log = await prisma.logEntry.create({
       data: {
-        message,
+        message: body.message,
       },
     });
+    console.log('Log created:', log);
+    
     // Format the timestamp
     const formattedLog = {
       ...log,
@@ -52,6 +59,7 @@ export async function POST(request: NextRequest) {
         hour12: false
       })
     };
+    
     return NextResponse.json(formattedLog);
   } catch (err) {
     console.error('Error creating log:', err);
