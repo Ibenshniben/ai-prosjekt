@@ -35,19 +35,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log('Request body:', body);
     
-    if (!body.message || typeof body.message !== 'string') {
-      console.error('Invalid message format');
-      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
-    }
-    
+    // Create the log entry
     const log = await prisma.logEntry.create({
       data: {
         message: body.message,
       },
     });
-    console.log('Log created:', log);
     
-    // Format the timestamp
+    console.log('Log created successfully:', log);
+    
+    // Format the timestamp for response
     const formattedLog = {
       ...log,
       timestamp: new Date(log.timestamp).toLocaleString('en-GB', {
@@ -63,6 +60,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(formattedLog);
   } catch (err) {
     console.error('Error creating log:', err);
-    return NextResponse.json({ error: 'Error creating log' }, { status: 500 });
+    return NextResponse.json({ error: 'Error creating log entry' }, { status: 500 });
   }
 }
