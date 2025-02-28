@@ -8,6 +8,7 @@ export async function GET() {
         timestamp: 'desc',
       },
     });
+    
     // Format the timestamps
     const formattedLogs = logs.map(log => ({
       ...log,
@@ -20,10 +21,12 @@ export async function GET() {
         hour12: false
       })
     }));
+    
     return NextResponse.json(formattedLogs);
   } catch (err) {
     console.error('Error fetching logs:', err);
-    return NextResponse.json({ error: 'Error fetching logs' }, { status: 500 });
+    // Return empty array instead of error to prevent client-side crashes
+    return NextResponse.json([], { status: 200 });
   }
 }
 
