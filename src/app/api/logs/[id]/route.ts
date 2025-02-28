@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
+interface Params {
+  id: string;
+}
+
 // Using the correct Next.js App Router types
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Params }
 ) {
-  const id = params.id;
   try {
     const { message } = await request.json();
     const log = await prisma.logEntry.update({
-      where: { id },
+      where: { id: context.params.id },
       data: { message },
     });
     return NextResponse.json(log);
@@ -22,12 +25,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Params }
 ) {
-  const id = params.id;
   try {
     await prisma.logEntry.delete({
-      where: { id },
+      where: { id: context.params.id },
     });
     return NextResponse.json({ success: true });
   } catch (err) {
