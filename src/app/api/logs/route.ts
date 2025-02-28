@@ -3,14 +3,15 @@ import { prisma } from '@/lib/db'
 
 export async function GET() {
   try {
-    console.log('Fetching logs...');
+    console.log('API: Fetching logs...');
     const logs = await prisma.logEntry.findMany({
       orderBy: {
         timestamp: 'desc',
       },
     });
-    console.log('Logs fetched:', logs);
+    console.log('API: Logs fetched successfully:', logs.length);
     
+    // Format the timestamps
     const formattedLogs = logs.map(log => ({
       ...log,
       timestamp: new Date(log.timestamp).toLocaleString('en-GB', {
@@ -25,7 +26,8 @@ export async function GET() {
     
     return NextResponse.json(formattedLogs);
   } catch (err) {
-    console.error('Error fetching logs:', err);
+    console.error('API: Error fetching logs:', err);
+    // Return empty array instead of error
     return NextResponse.json([]);
   }
 }
