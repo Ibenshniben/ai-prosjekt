@@ -25,8 +25,8 @@ export async function GET() {
     return NextResponse.json(formattedLogs);
   } catch (err) {
     console.error('Error fetching logs:', err);
-    // Return empty array instead of error to prevent client-side crashes
-    return NextResponse.json([], { status: 200 });
+    // Return empty array instead of error
+    return NextResponse.json([]);
   }
 }
 

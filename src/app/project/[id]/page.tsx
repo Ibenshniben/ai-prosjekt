@@ -28,18 +28,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
       fetchLogs();
     }
   }, [projectId]);
-  // In your fetchLogs function
+  // Update the fetchLogs function
   const fetchLogs = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/logs');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch logs');
-      }
+      const response = await fetch('/api/logs', {
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      });
       
       const data = await response.json();
-      setLogEntries(data || []);
+      setLogEntries(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching logs:', error);
       setLogEntries([]);
