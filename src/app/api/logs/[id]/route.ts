@@ -1,34 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function PUT(request: NextRequest, context: Context) {
   try {
-    const { message } = await req.json();
+    const { message } = await request.json();
     const log = await prisma.logEntry.update({
-      where: { id: params.id },
+      where: { id: context.params.id },
       data: { message },
     });
     return NextResponse.json(log);
   } catch (err) {
-    console.error('Error updating log:', err);
     return NextResponse.json({ error: 'Error updating log' }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+export async function DELETE(request: NextRequest, context: Context) {
   try {
     await prisma.logEntry.delete({
-      where: { id: params.id },
+      where: { id: context.params.id },
     });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error('Error deleting log:', err);
     return NextResponse.json({ error: 'Error deleting log' }, { status: 500 });
   }
 }
