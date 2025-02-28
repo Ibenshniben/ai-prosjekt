@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 
 export async function GET() {
@@ -7,25 +7,49 @@ export async function GET() {
       orderBy: {
         timestamp: 'desc',
       },
-    })
-    return NextResponse.json(logs)
+    });
+    // Format the timestamps
+    const formattedLogs = logs.map(log => ({
+      ...log,
+      timestamp: new Date(log.timestamp).toLocaleString('en-GB', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      })
+    }));
+    return NextResponse.json(formattedLogs);
   } catch (err) {
-    console.error('Error fetching logs:', err)
-    return NextResponse.json({ error: 'Error fetching logs' }, { status: 500 })
+    console.error('Error fetching logs:', err);
+    return NextResponse.json({ error: 'Error fetching logs' }, { status: 500 });
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json()
+    const { message } = await request.json();
     const log = await prisma.logEntry.create({
       data: {
         message,
       },
-    })
-    return NextResponse.json(log)
+    });
+    // Format the timestamp
+    const formattedLog = {
+      ...log,
+      timestamp: new Date(log.timestamp).toLocaleString('en-GB', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      })
+    };
+    return NextResponse.json(formattedLog);
   } catch (err) {
-    console.error('Error creating log:', err)
-    return NextResponse.json({ error: 'Error creating log' }, { status: 500 })
+    console.error('Error creating log:', err);
+    return NextResponse.json({ error: 'Error creating log' }, { status: 500 });
   }
-} 
+}

@@ -1,3 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your custom styles below */
+
 @import "tailwindcss";
 
 @theme {
@@ -8,6 +14,7 @@
 :root {
   --background: #111111;
   --foreground: #ffffff;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +29,7 @@ body {
   padding: 0;
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-sans), Arial, sans-serif;
+  font-family: var(--font-sans);
   overflow-x: hidden;
 }
 

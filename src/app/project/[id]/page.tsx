@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { use, useState, useEffect } from "react";
+import SharedNavbar from "@/components/SharedNavbar";
 
 // Define the type for our log entries
 interface LogEntry {
@@ -110,28 +111,24 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   // If this is the log page (id === "2"), show the log interface
   if (projectId === "2") {
     return (
-      <div className="min-h-screen bg-[#111111] text-white p-8">
-        <header className="fixed top-0 left-0 w-full flex justify-between items-center p-8">
-          <Link href="/" className="text-2xl font-bold hover:underline">
-            AURA AI
-          </Link>
-        </header>
-
+      <div className="min-h-screen bg-blue-950 text-white p-8">
+        <SharedNavbar />
+        
         <main className="pt-32 pb-24 max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Logg</h1>
+          <h1 className="text-4xl font-bold mb-8 text-blue-200">Logg</h1>
           
           {/* Add new log entry */}
           <div className="mb-8">
             <textarea
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              className="w-full p-4 bg-gray-900 text-white rounded-lg mb-2"
+              className="w-full p-4 bg-blue-900 text-white rounded-lg mb-2 border border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Write your log message here..."
               rows={4}
             />
             <button
               onClick={addLogEntry}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition-colors"
             >
               Add Log Entry
             </button>
@@ -140,36 +137,36 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           {/* Log entries list */}
           <div className="space-y-4">
             {logEntries.map((entry) => (
-              <div key={entry.id} className="p-4 bg-gray-900 rounded-lg">
+              <div key={entry.id} className="p-4 bg-blue-900 rounded-lg border border-blue-800">
                 {entry.isEditing ? (
                   <div>
                     <textarea
                       value={editMessage}
                       onChange={(e) => setEditMessage(e.target.value)}
-                      className="w-full p-2 bg-gray-800 text-white rounded mb-2"
+                      className="w-full p-2 bg-blue-800 text-white rounded mb-2 border border-blue-700"
                       rows={3}
                     />
                     <button
                       onClick={() => saveEdit(entry.id)}
-                      className="px-3 py-1 bg-green-600 text-white rounded mr-2 hover:bg-green-700"
+                      className="px-3 py-1 bg-blue-500 text-white rounded mr-2 hover:bg-blue-400"
                     >
                       Save
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-sm text-gray-400 mb-2">{entry.timestamp}</p>
+                    <p className="text-sm text-blue-300 mb-2">{entry.timestamp}</p>
                     <p className="mb-4">{entry.message}</p>
                     <div className="flex space-x-2">
                       <button
                         onClick={() => startEdit(entry.id)}
-                        className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-500"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteEntry(entry.id)}
-                        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-500"
                       >
                         Delete
                       </button>
@@ -181,16 +178,16 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           </div>
         </main>
 
-        <footer className="fixed bottom-0 left-0 w-full p-8 flex justify-between text-sm">
+        <footer className="fixed bottom-0 left-0 w-full p-8 flex justify-between text-sm bg-blue-950 border-t border-blue-900">
           <div>
-            <p>AI PROSJEKT 2025</p>
+            <p className="text-blue-300">AI PROSJEKT 2025</p>
           </div>
           <div>
             <a 
               href="https://www.gervi.ai" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:underline"
+              className="text-blue-300 hover:underline"
             >
               GERVI
             </a>
@@ -202,41 +199,34 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
   // Return the default project page for other IDs
   return (
-    <div className="min-h-screen bg-[#111111] text-white p-8">
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full flex justify-between items-center p-8">
-        <Link href="/" className="text-2xl font-bold hover:underline">
-          AURA AI
-        </Link>
-      </header>
-
-      {/* Main content */}
+    <div className="min-h-screen bg-blue-950 text-white p-8">
+      <SharedNavbar />
+      
       <main className="pt-32 pb-24">
-        <h1 className="text-4xl font-bold mb-8">Oppnåelse {projectId}</h1>
+        <h1 className="text-4xl font-bold mb-8 text-blue-200">Oppnåelse {projectId}</h1>
         <div className="max-w-2xl">
-          <p className="text-gray-400 mb-4">
+          <p className="text-blue-300 mb-4">
             This is the detailed view of Oppnåelse {projectId}. Add your project-specific content here.
           </p>
           <button 
             onClick={() => router.back()} 
-            className="text-white hover:underline"
+            className="text-blue-300 hover:underline flex items-center"
           >
-            ← Back to projects
+            <span className="mr-2">←</span> Back to projects
           </button>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full p-8 flex justify-between text-sm">
+      <footer className="fixed bottom-0 left-0 w-full p-8 flex justify-between text-sm bg-blue-950 border-t border-blue-900">
         <div>
-          <p>AI PROSJEKT 2025</p>
+          <p className="text-blue-300">AI PROSJEKT 2025</p>
         </div>
         <div>
           <a 
             href="https://www.gervi.ai" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="hover:underline"
+            className="text-blue-300 hover:underline"
           >
             GERVI
           </a>
@@ -244,4 +234,4 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
       </footer>
     </div>
   );
-} 
+}
