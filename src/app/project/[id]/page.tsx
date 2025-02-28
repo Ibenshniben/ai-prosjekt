@@ -122,33 +122,31 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         <main className="pt-32 pb-24 max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-blue-200">Logg</h1>
           
-          {isLoading ? (
-            <div className="text-center py-8">
-              <p className="text-blue-300">Loading logs...</p>
-            </div>
-          ) : logEntries.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-blue-300">No logs found. Add your first log entry!</p>
-            </div>
-          ) : (
-            {/* Add new log entry */}
-            <div className="mb-8">
-              <textarea
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                className="w-full p-4 bg-blue-900 text-white rounded-lg mb-2 border border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Write your log message here..."
-                rows={4}
-              />
-              <button
-                onClick={addLogEntry}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition-colors"
-              >
-                Add Log Entry
-              </button>
-            </div>
-          )}
-          {/* Log entries list */}
+          {/* Add new log entry */}
+          <div className="mb-8">
+            <textarea
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              className="w-full p-4 bg-blue-900 text-white rounded-lg mb-2 border border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Write your log message here..."
+              rows={4}
+            />
+            <button
+              onClick={addLogEntry}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition-colors"
+            >
+              Add Log Entry
+            </button>
+          </div>
+        {isLoading ? (
+          <div className="text-center py-8">
+            <p className="text-blue-300">Loading logs...</p>
+          </div>
+        ) : logEntries.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-blue-300">No logs found. Add your first log entry!</p>
+          </div>
+        ) : (
           <div className="space-y-4">
             {logEntries.map((entry) => (
               <div key={entry.id} className="p-4 bg-blue-900 rounded-lg border border-blue-800">
@@ -190,6 +188,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               </div>
             ))}
           </div>
+        )}
         </main>
 
         <footer className="fixed bottom-0 left-0 w-full p-8 flex justify-between text-sm bg-blue-950 border-t border-blue-900">
