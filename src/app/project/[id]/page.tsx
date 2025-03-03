@@ -52,28 +52,31 @@ export default function ProjectPage({ params }: { params: { id: string } }) {  /
     if (newMessage.trim()) {
       try {
         console.log('Adding log entry:', newMessage);
+        setIsLoading(true);
+        
         const response = await fetch('/api/logs', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: newMessage }),
-          cache: 'no-store'
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            message: newMessage 
+          })
         });
         
         console.log('Response status:', response.status);
         
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error('Error response:', errorData);
-          throw new Error(`Failed to add log: ${errorData.error || response.statusText}`);
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data = await response.json();
-        console.log('Log added successfully:', data);
         setNewMessage('');
-        fetchLogs(); // Refresh logs
+        fetchLogs();
       } catch (error) {
         console.error('Error adding log:', error);
         alert('Failed to add log entry. Please try again.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
