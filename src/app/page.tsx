@@ -109,7 +109,7 @@ export default function Home() {
             {projects.map((project) => (
               <Link 
                 key={project.id}
-                href={`/project/${project.id}`}
+                href={project.href || `/project/${project.id}`}
                 className="flex-none w-[200px] h-[400px] mx-2 relative group"
               >
                 <Image
