@@ -17,10 +17,11 @@ export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
+  // Update the projects array in your home page
   const projects = [
     { id: 1, image: nissanGtr, title: "Team", href: "/team" },
-    { id: 2, image: nissanGtr, title: "Gervi", href: "/gervi" },  // Changed from "Logg" to "Gervi"
-    { id: 3, image: nissanGtr, title: "Video", href: "/video" },  // Changed from "Oppnåelse 3" to "Video" with href
+    { id: 2, image: nissanGtr, title: "Gervi", href: "/gervi" },
+    { id: 3, image: nissanGtr, title: "Video", href: "/video" },
     { id: 4, image: nissanGtr, title: "Oppnåelse 4" },
     { id: 5, image: nissanGtr, title: "Oppnåelse 5" },
     { id: 6, image: nissanGtr, title: "Oppnåelse 6" },

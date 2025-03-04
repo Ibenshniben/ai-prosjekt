@@ -14,20 +14,21 @@ export default function VideoPage() {
         
         <div className="bg-blue-900 p-6 rounded-lg border border-blue-800 mb-8">
           <div className="aspect-w-16 aspect-h-9">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Featured Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-[500px] rounded-md"
-            ></iframe>
+            <video 
+              controls 
+              className="w-full h-auto rounded-md"
+              poster="/video-thumbnail.jpg"
+            >
+              <source src="/demo-video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
           
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-2">Video Title</h2>
+            <h2 className="text-xl font-semibold mb-2">AI Project Demo</h2>
             <p className="text-blue-300">
-              This is a description of the video. You can provide context, explain what the video is about,
-              or add any other relevant information here.
+              This video demonstrates the key features and capabilities of our AI project. 
+              Watch to learn more about how our technology works and the problems it solves.
             </p>
           </div>
         </div>

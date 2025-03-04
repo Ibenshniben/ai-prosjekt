@@ -11,14 +11,14 @@ export default function GerviPage() {
       <SharedNavbar />
       
       <main className="pt-32 pb-24 max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-blue-200">About Gervi</h1>
+        <h1 className="text-4xl font-bold mb-8 text-blue-200">Gervi Labs</h1>
         
         <div className="bg-blue-900 p-8 rounded-lg border border-blue-800 mb-8">
           <div className="flex justify-center mb-8">
             <div className="relative w-64 h-64">
               <Image
                 src="/gervi-logo.png"
-                alt="Gervi Logo"
+                alt="Gervi Labs Logo"
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 256px"
@@ -26,18 +26,38 @@ export default function GerviPage() {
             </div>
           </div>
           
+          <h2 className="text-2xl font-bold mb-4 text-blue-200">About Gervi Labs</h2>
+          
           <p className="text-lg mb-6">
-            Gervi is a cutting-edge AI company focused on developing innovative solutions for businesses and individuals.
-            Our mission is to make artificial intelligence accessible, practical, and beneficial for everyone.
+            Gervi Labs is a pioneering AI research and development company focused on creating 
+            next-generation artificial intelligence solutions. Founded in 2022, our mission is to 
+            develop AI technologies that enhance human capabilities and solve complex problems.
           </p>
           
           <p className="text-lg mb-6">
-            Founded in 2023, Gervi has quickly established itself as a leader in AI research and application development.
-            Our team of experts combines deep technical knowledge with practical business experience to create AI solutions
-            that address real-world challenges.
+            Our team consists of world-class researchers, engineers, and designers who are passionate 
+            about pushing the boundaries of what AI can achieve. We specialize in natural language 
+            processing, computer vision, and generative AI technologies.
           </p>
           
-          <p className="text-lg mb-6">
+          <h2 className="text-2xl font-bold mb-4 text-blue-200">Our Products</h2>
+          
+          <ul className="list-disc pl-6 mb-6">
+            <li className="mb-2">
+              <span className="font-bold">Gervi Assistant</span> - An advanced AI assistant that helps 
+              businesses automate tasks and improve productivity.
+            </li>
+            <li className="mb-2">
+              <span className="font-bold">Gervi Vision</span> - Computer vision technology that enables 
+              machines to interpret and understand visual information.
+            </li>
+            <li className="mb-2">
+              <span className="font-bold">Gervi Create</span> - A suite of generative AI tools for 
+              content creation and design.
+            </li>
+          </ul>
+          
+          <p className="text-lg">
             Visit <a href="https://www.gervi.ai" target="_blank" rel="noopener noreferrer" className="text-blue-300 underline">www.gervi.ai</a> to learn more about our products and services.
           </p>
         </div>
