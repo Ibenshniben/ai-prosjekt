@@ -47,41 +47,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {  /
       setIsLoading(false);
     }
   };
-  // Add new log entry
-  // Remove the duplicate addLogEntry function and keep only this one
-  const addLogEntry = async () => {
-    if (newMessage.trim()) {
-      try {
-        console.log('Adding log entry:', newMessage);
-        setIsLoading(true);
-        
-        const response = await fetch('/api/logs', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            message: newMessage 
-          })
-        });
-        
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        setNewMessage('');
-        fetchLogs();
-      } catch (error) {
-        console.error('Error adding log:', error);
-        alert('Failed to add log entry. Please try again.');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
-  // Add new log entry
+  // Add new log entry - keep only this implementation
   const addLogEntry = async () => {
     if (newMessage.trim()) {
       try {
@@ -113,7 +79,6 @@ export default function ProjectPage({ params }: { params: { id: string } }) {  /
       }
     }
   };
-
   // Delete log entry
   const deleteEntry = async (id: string) => {
     try {

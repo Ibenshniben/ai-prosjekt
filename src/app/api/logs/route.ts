@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/db'
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/db';
 
 export async function GET() {
   try {
@@ -9,7 +9,6 @@ export async function GET() {
       },
     });
     
-    // Format the timestamps
     const formattedLogs = logs.map(log => ({
       ...log,
       timestamp: new Date(log.timestamp).toLocaleString('en-GB', {
