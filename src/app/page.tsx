@@ -22,7 +22,7 @@ export default function Home() {
     { id: 1, image: nissanGtr, title: "Team", href: "/team" },
     { id: 2, image: nissanGtr, title: "Gervi", href: "/gervi" },
     { id: 3, image: nissanGtr, title: "Video", href: "/video" },
-    { id: 4, image: nissanGtr, title: "Oppnåelse 4" },
+    { id: 4, image: nissanGtr, title: "PDF", href: "/pdf" },  // Changed from "Oppnåelse 4" to "PDF" with href
     { id: 5, image: nissanGtr, title: "Oppnåelse 5" },
     { id: 6, image: nissanGtr, title: "Oppnåelse 6" },
   ];
