@@ -18,9 +18,9 @@ export default function Home() {
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const projects = [
-    { id: 1, image: nissanGtr, title: "Team", href: "/team" },  // Changed from "Oppnåelse 1" to "Team" with new href
-    { id: 2, image: nissanGtr, title: "Logg", href: "/project/2" },
-    { id: 3, image: nissanGtr, title: "Oppnåelse 3" },
+    { id: 1, image: nissanGtr, title: "Team", href: "/team" },
+    { id: 2, image: nissanGtr, title: "Gervi", href: "/gervi" },  // Changed from "Logg" to "Gervi"
+    { id: 3, image: nissanGtr, title: "Video", href: "/video" },  // Changed from "Oppnåelse 3" to "Video" with href
     { id: 4, image: nissanGtr, title: "Oppnåelse 4" },
     { id: 5, image: nissanGtr, title: "Oppnåelse 5" },
     { id: 6, image: nissanGtr, title: "Oppnåelse 6" },
